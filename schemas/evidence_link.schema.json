@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "evidence_link_id",
+    "output_artifact_id",
+    "claim_id",
+    "source_id",
+    "relationship",
+    "reference",
+    "quoted_or_extracted_text",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "evidence_link_id": { "type": "string", "minLength": 1 },
+    "output_artifact_id": { "type": "string", "minLength": 1 },
+    "claim_id": { "type": "string", "minLength": 1 },
+    "source_id": { "type": "string", "minLength": 1 },
+    "relationship": {
+      "type": "string",
+      "enum": [
+        "supports",
+        "partially_supports",
+        "contradicts",
+        "contextualizes",
+        "derived_from",
+        "needs_review"
+      ]
+    },
+    "reference": {
+      "type": "object",
+      "required": [
+        "title",
+        "locator",
+        "retrieved_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "locator": { "type": "string", "minLength": 1 },
+        "retrieved_at": { "type": "string", "minLength": 1 },
+        "section": { "type": "string" },
+        "line_range": { "type": "string" },
+        "content_hash": { "type": "string" }
+      }
+    },
+    "quoted_or_extracted_text": { "type": "string" },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

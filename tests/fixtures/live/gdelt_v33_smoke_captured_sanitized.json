@@ -1,0 +1,139 @@
+{
+  "articles": [
+    {
+      "domain": "lastampa.it",
+      "language": "Italian",
+      "seendate": "20260526T114500Z",
+      "socialimage": {
+        "length": 112,
+        "type": "str"
+      },
+      "sourcecountry": "Italy",
+      "title": "Treni nel caos tra Torino e Milano : cancellazioni e ritardi fino a 190 minuti",
+      "url": "https://www.lastampa.it/torino/2026/05/26/news/ritardi_treni_torino_milano_investimento_persona_stura_settimo-15636715/",
+      "url_mobile": "https://www.lastampa.it/torino/2026/05/26/news/ritardi_treni_torino_milano_investimento_persona_stura_settimo-15636715/amp/"
+    },
+    {
+      "domain": "tanea.gr",
+      "language": "Greek",
+      "seendate": "20260623T070000Z",
+      "socialimage": {
+        "length": 68,
+        "type": "str"
+      },
+      "sourcecountry": "Greece",
+      "title": "Κίνηση στους δρόμους : Στο « κόκκινο » ο Κηφισός - Kαθυστερήσεις σε λιμάνι του Περαιά και Αττική Οδό",
+      "url": "https://www.tanea.gr/2026/06/23/greece/kinisi-stous-dromous-sto-kokkino-o-kifisos-kathysteriseis-se-limani-tou-peraia-kai-attiki-odo/",
+      "url_mobile": "https://www.tanea.gr/2026/06/23/greece/kinisi-stous-dromous-sto-kokkino-o-kifisos-kathysteriseis-se-limani-tou-peraia-kai-attiki-odo/amp/"
+    },
+    {
+      "domain": "akhbarelyom.com",
+      "language": "Arabic",
+      "seendate": "20260627T050000Z",
+      "socialimage": {
+        "length": 72,
+        "type": "str"
+      },
+      "sourcecountry": "Egypt",
+      "title": "90 دقيقة متوسط تأخيرات « بنها وبورسعيد ».. السبت 27 يونيو 2026",
+      "url": "https://akhbarelyom.com/news/newdetails/4841848/1/90-%D8%AF%D9%82%D9%8A%D9%82%D8%A9-%D9%85%D8%AA%D9%88%D8%B3%D8%B7-%D8%AA%D8%A3%D8%AE%D9%8A%D8%B1%D8%A7%D8%AA-%D8%A8%D9%86%D9%87%D8%A7-%D9%88%D8%A8%D9%88%D8%B1%D8%B3%D8%B9%D9%8A%D8%AF--%D8%A7%D9%84",
+      "url_mobile": ""
+    },
+    {
+      "domain": "in.gr",
+      "language": "Greek",
+      "seendate": "20260409T103000Z",
+      "socialimage": {
+        "length": 64,
+        "type": "str"
+      },
+      "sourcecountry": "Greece",
+      "title": "Πασχαλινή έξοδος : Καθυστερήσεις σε Αττική Οδό , Κηφισό , Λεωφόρο Αθηνών και Πειραιά",
+      "url": "https://www.in.gr/2026/04/09/greece/pasxalini-eksodos-kathysteriseis-se-attiki-odo-kifiso-leoforo-athinon-kai-peiraia/",
+      "url_mobile": "https://www.in.gr/2026/04/09/greece/pasxalini-eksodos-kathysteriseis-se-attiki-odo-kifiso-leoforo-athinon-kai-peiraia/amp/"
+    },
+    {
+      "domain": "akhbarelyom.com",
+      "language": "Arabic",
+      "seendate": "20260618T010000Z",
+      "socialimage": {
+        "length": 72,
+        "type": "str"
+      },
+      "sourcecountry": "Egypt",
+      "title": "حركة القطارات| 90 دقيقة متوسط تأخيرات « بنها وبورسعيد ».. الخميس 18 يونيو 2026",
+      "url": "https://akhbarelyom.com/news/newdetails/4837177/1/%D8%AD%D8%B1%D9%83%D8%A9-%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D8%B1%D8%A7%D8%AA-90-%D8%AF%D9%82%D9%8A%D9%82%D8%A9-%D9%85%D8%AA%D9%88%D8%B3%D8%B7-%D8%AA%D8%A3%D8%AE%D9%8A%D8%B1%D8%A7%D8%AA-%D8%A8%D9%86%D9%87",
+      "url_mobile": ""
+    },
+    {
+      "domain": "enikos.gr",
+      "language": "Greek",
+      "seendate": "20260428T074500Z",
+      "socialimage": {
+        "length": 68,
+        "type": "str"
+      },
+      "sourcecountry": "Greece",
+      "title": "Κίνηση στους δρόμους : Στο « κόκκινο » Κηφισός , Κηφισίας και Πειραιάς - Καθυστερήσεις και στην Αττική Οδό",
+      "url": "https://www.enikos.gr/society/kinisi-stous-dromous-sto-kokkino-kifisos-kifisias-kai-peiraias-kathysteriseis-kai-stin-attiki-odo/2572736/",
+      "url_mobile": "https://www.enikos.gr/society/kinisi-stous-dromous-sto-kokkino-kifisos-kifisias-kai-peiraias-kathysteriseis-kai-stin-attiki-odo/2572736/amp/"
+    },
+    {
+      "domain": "vetogate.com",
+      "language": "Arabic",
+      "seendate": "20260503T080000Z",
+      "socialimage": {
+        "length": 0,
+        "type": "str"
+      },
+      "sourcecountry": "Egypt",
+      "title": "الصعيد وبورسعيد أعلى خطوط السكك الحديدية تأخيرا اليوم",
+      "url": "https://www.vetogate.com/5647580",
+      "url_mobile": ""
+    },
+    {
+      "domain": "akhbarelyom.com",
+      "language": "Arabic",
+      "seendate": "20260430T011500Z",
+      "socialimage": {
+        "length": 72,
+        "type": "str"
+      },
+      "sourcecountry": "Egypt",
+      "title": "حركة القطارات| 90 دقيقة متوسط تأخيرات « بنها وبورسعيد ».. الخميس 30 أبريل",
+      "url": "https://akhbarelyom.com/news/newdetails/4813178/1/%D8%AD%D8%B1%D9%83%D8%A9-%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D8%B1%D8%A7%D8%AA-90-%D8%AF%D9%82%D9%8A%D9%82%D8%A9-%D9%85%D8%AA%D9%88%D8%B3%D8%B7-%D8%AA%D8%A3%D8%AE%D9%8A%D8%B1%D8%A7%D8%AA-%D8%A8%D9%86%D9%87",
+      "url_mobile": ""
+    },
+    {
+      "domain": "lanazione.it",
+      "language": "Italian",
+      "seendate": "20260526T173000Z",
+      "socialimage": {
+        "length": 107,
+        "type": "str"
+      },
+      "sourcecountry": "Italy",
+      "title": "Ritardi dei treni oggi in Toscana : Alta Velocità , convogli a rilento , gli aggiornamenti",
+      "url": "https://www.lanazione.it/cronaca/ritardi-treni-oggi-aeka7j7d",
+      "url_mobile": ""
+    },
+    {
+      "domain": "akhbarelyom.com",
+      "language": "Arabic",
+      "seendate": "20260513T031500Z",
+      "socialimage": {
+        "length": 72,
+        "type": "str"
+      },
+      "sourcecountry": "Egypt",
+      "title": "حركة القطارات| 90 دقيقة متوسط تأخيرات « بنها وبورسعيد ».. الأربعاء 13 مايو",
+      "url": "https://akhbarelyom.com/news/newdetails/4820166/1/%D8%AD%D8%B1%D9%83%D8%A9-%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D8%B1%D8%A7%D8%AA-90-%D8%AF%D9%82%D9%8A%D9%82%D8%A9-%D9%85%D8%AA%D9%88%D8%B3%D8%B7-%D8%AA%D8%A3%D8%AE%D9%8A%D8%B1%D8%A7%D8%AA-%D8%A8%D9%86%D9%87",
+      "url_mobile": ""
+    }
+  ],
+  "capture_type": "sanitized_response_shape",
+  "captured_at": "2026-07-02T08:23:11Z",
+  "record_count": 10,
+  "source_id": "gdelt",
+  "source_policy_version": "270c82d7634c3576448ad4dbedb56126a8d0f1276bc533f1cb9ac9e0ceaa0a27"
+}

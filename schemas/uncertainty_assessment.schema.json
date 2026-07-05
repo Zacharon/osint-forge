@@ -1,0 +1,82 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "uncertainty_id",
+    "target_type",
+    "target_id",
+    "source_reliability",
+    "extraction_certainty",
+    "corroboration_level",
+    "analyst_or_model_confidence",
+    "overall_confidence",
+    "rationale"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "uncertainty_id": { "type": "string", "minLength": 1 },
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "claim",
+        "output_artifact",
+        "evidence_link",
+        "source_record"
+      ]
+    },
+    "target_id": { "type": "string", "minLength": 1 },
+    "source_reliability": {
+      "type": "object",
+      "required": ["score", "band", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "band": { "type": "string", "enum": ["very_low", "low", "medium", "high", "very_high"] },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "extraction_certainty": {
+      "type": "object",
+      "required": ["score", "band", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "band": { "type": "string", "enum": ["very_low", "low", "medium", "high", "very_high"] },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "corroboration_level": {
+      "type": "object",
+      "required": ["score", "band", "independent_source_count", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "band": { "type": "string", "enum": ["none", "single_source", "partial", "strong", "independent"] },
+        "independent_source_count": { "type": "integer", "minimum": 0 },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "analyst_or_model_confidence": {
+      "type": "object",
+      "required": ["score", "band", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "band": { "type": "string", "enum": ["very_low", "low", "medium", "high", "very_high"] },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "overall_confidence": {
+      "type": "object",
+      "required": ["score", "band", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "band": { "type": "string", "enum": ["very_low", "low", "medium", "high", "very_high"] },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "rationale": { "type": "string", "minLength": 1 }
+  }
+}

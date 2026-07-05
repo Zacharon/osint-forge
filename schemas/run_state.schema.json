@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state_scope",
+    "run_id",
+    "skill_name",
+    "skill_path",
+    "status",
+    "review_required",
+    "provider",
+    "created_at",
+    "updated_at",
+    "live_ingestion_enabled",
+    "live_ingestion_attempted",
+    "recent_memory_count",
+    "memory_checkpoint_path",
+    "review_packet_path",
+    "eval_result_path",
+    "artifact_summary_path",
+    "skill_sha256",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "state_scope": { "type": "string", "enum": ["run", "project_current"] },
+    "run_id": { "type": "string" },
+    "skill_name": { "type": "string" },
+    "skill_path": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "needs_review",
+        "approved",
+        "rejected",
+        "changes_requested",
+        "execution_plan_created"
+      ]
+    },
+    "review_required": { "type": "boolean", "const": true },
+    "provider": { "type": "string", "const": "mock" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" },
+    "live_ingestion_enabled": { "type": "boolean", "const": false },
+    "live_ingestion_attempted": { "type": "boolean", "const": false },
+    "source_run_state_path": { "type": "string" },
+    "parent_run_id": { "type": "string" },
+    "recent_memory_count": { "type": "integer" },
+    "memory_checkpoint_path": { "type": "string" },
+    "review_packet_path": { "type": "string" },
+    "eval_result_path": { "type": "string" },
+    "artifact_summary_path": { "type": "string" },
+    "review_decision_path": { "type": "string" },
+    "execution_plan_path": { "type": "string" },
+    "revision_note_path": { "type": "string" },
+    "review_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["decision_id", "decision", "reviewed_at", "reviewer", "note"],
+        "properties": {
+          "decision_id": { "type": "string" },
+          "decision": { "type": "string", "enum": ["approved", "rejected", "changes_requested"] },
+          "reviewed_at": { "type": "string" },
+          "reviewer": { "type": "string" },
+          "note": { "type": "string" },
+          "execution_plan_path": { "type": "string" },
+          "revision_note_path": { "type": "string" }
+        }
+      }
+    },
+    "skill_sha256": { "type": "string" },
+    "summary": { "type": "string" }
+  }
+}

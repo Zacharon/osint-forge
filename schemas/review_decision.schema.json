@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "decision_id",
+    "run_id",
+    "decision",
+    "reviewed_at",
+    "reviewer",
+    "note",
+    "prior_status",
+    "resulting_status",
+    "live_ingestion_enabled",
+    "live_ingestion_attempted",
+    "creates_execution_plan",
+    "review_history"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "decision_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "decision": { "type": "string", "enum": ["approved", "rejected", "changes_requested"] },
+    "reviewed_at": { "type": "string" },
+    "reviewer": { "type": "string" },
+    "note": { "type": "string" },
+    "prior_status": { "type": "string" },
+    "resulting_status": { "type": "string", "enum": ["approved", "rejected", "changes_requested"] },
+    "live_ingestion_enabled": { "type": "boolean", "const": false },
+    "live_ingestion_attempted": { "type": "boolean", "const": false },
+    "creates_execution_plan": { "type": "boolean" },
+    "execution_plan_path": { "type": "string" },
+    "revision_note_path": { "type": "string" },
+    "review_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["decision_id", "decision", "reviewed_at", "reviewer", "note"],
+        "properties": {
+          "decision_id": { "type": "string" },
+          "decision": { "type": "string", "enum": ["approved", "rejected", "changes_requested"] },
+          "reviewed_at": { "type": "string" },
+          "reviewer": { "type": "string" },
+          "note": { "type": "string" },
+          "execution_plan_path": { "type": "string" },
+          "revision_note_path": { "type": "string" }
+        }
+      }
+    }
+  }
+}

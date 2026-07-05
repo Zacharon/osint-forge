@@ -1,0 +1,31 @@
+# Python cache and test byproducts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+
+# Local databases and vector stores
+*.db
+*.sqlite
+*.sqlite3
+.chroma/
+.chromadb/
+chroma/
+chromadb/
+chroma_db/
+chroma_store/
+vector_db/
+vector_store/
+
+# Local workspaces and generated runtime artifacts
+workspace/
+runs/*
+!runs/.gitkeep
+memory_checkpoints/*
+!memory_checkpoints/.gitkeep

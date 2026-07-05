@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "checkpoint_id",
+    "run_id",
+    "created_at",
+    "status",
+    "skill_name",
+    "live_ingestion_enabled",
+    "recent_memory_inputs",
+    "extracted_facts",
+    "next_review_action"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "checkpoint_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "status": { "type": "string", "const": "needs_review" },
+    "skill_name": { "type": "string" },
+    "live_ingestion_enabled": { "type": "boolean", "const": false },
+    "recent_memory_inputs": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "extracted_facts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_review_action": { "type": "string" }
+  }
+}

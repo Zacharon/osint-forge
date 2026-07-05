@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_id",
+    "source_kind",
+    "title",
+    "locator",
+    "retrieved_at",
+    "access_method",
+    "live_ingestion_used",
+    "metadata"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "source_id": { "type": "string", "minLength": 1 },
+    "source_kind": {
+      "type": "string",
+      "enum": [
+        "document",
+        "web_page",
+        "dataset",
+        "api_response",
+        "runner_artifact",
+        "operator_note",
+        "unknown"
+      ]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "locator": { "type": "string", "minLength": 1 },
+    "retrieved_at": { "type": "string", "minLength": 1 },
+    "published_at": { "type": "string" },
+    "publisher": { "type": "string" },
+    "author": { "type": "string" },
+    "access_method": {
+      "type": "string",
+      "enum": [
+        "runner_artifact",
+        "operator_supplied",
+        "fixture",
+        "manual_review",
+        "disabled_registry_proposal",
+        "approved_connector"
+      ]
+    },
+    "live_ingestion_used": { "type": "boolean" },
+    "metadata": { "type": "object" }
+  }
+}

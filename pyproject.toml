@@ -1,0 +1,14 @@
+[project]
+name = "osint-forge"
+version = "3.1.0"
+description = "Governed async OSINT mission orchestration with privacy, SAT, review, and auditability gates."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+osint-forge = "osint_forge.main:main"
+osint-forge-review = "osint_forge.review.review_cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
