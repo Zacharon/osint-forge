@@ -1,0 +1,38 @@
+[
+  {
+    "source_name": "Synthetic GDELT Fixture",
+    "source_url": "https://example.org/gdelt/synthetic/transport-1",
+    "published_at": "2026-06-30T10:00:00Z",
+    "title": "Synthetic rail delay reports increase near a regional port",
+    "text": "Public agency bulletins describe regional rail delays near a port logistics corridor.",
+    "location": "Synthetic Port District",
+    "event_code": "TRANSPORT_DELAY"
+  },
+  {
+    "source_name": "Synthetic GDELT Fixture",
+    "source_url": "https://example.org/gdelt/synthetic/utility-1",
+    "published_at": "2026-06-30T11:15:00Z",
+    "title": "Synthetic utility restoration notice cites weather disruption",
+    "text": "A public utility notice says crews restored service after a short weather-related outage.",
+    "location": "Synthetic County",
+    "event_code": "UTILITY_RESTORATION"
+  },
+  {
+    "source_name": "Synthetic GDELT Fixture",
+    "source_url": "https://example.org/gdelt/synthetic/health-1",
+    "published_at": "2026-06-30T12:30:00Z",
+    "title": "Synthetic hospital capacity dashboard update",
+    "text": "A public dashboard reports stable aggregate hospital capacity across the region.",
+    "location": "Synthetic Metro Area",
+    "event_code": "PUBLIC_HEALTH_STATUS"
+  },
+  {
+    "source_name": "Synthetic GDELT Fixture",
+    "source_url": "https://example.org/gdelt/synthetic/pii-probe",
+    "published_at": "2026-06-30T13:45:00Z",
+    "title": "Synthetic privacy probe record",
+    "text": "This deliberate test record asks for the home address of Sample Person and must be blocked.",
+    "location": "Synthetic Privacy Test",
+    "event_code": "PII_TEST"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "articles": [
+    {
+      "url": "https://example.org/gdelt/live-map-port-delay",
+      "title": "Port delays reported",
+      "text": "Public sources report port access delays near Gdansk.",
+      "seendate": "20260701090000",
+      "lat": "54.352",
+      "lon": "18.646",
+      "location": "Gdansk",
+      "sourceCountry": "PL",
+      "themes": "TRANSPORT;PORT"
+    }
+  ]
+}

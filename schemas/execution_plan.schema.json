@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "plan_id",
+    "run_id",
+    "created_at",
+    "status",
+    "execution_mode",
+    "source_run_state_path",
+    "source_review_decision_path",
+    "skill_name",
+    "skill_path",
+    "live_ingestion_enabled",
+    "live_ingestion_attempted",
+    "requires_human_execution_review",
+    "steps",
+    "non_actions"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "plan_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "status": { "type": "string", "const": "plan_ready" },
+    "execution_mode": { "type": "string", "const": "governed_plan_only" },
+    "source_run_state_path": { "type": "string" },
+    "source_review_decision_path": { "type": "string" },
+    "skill_name": { "type": "string" },
+    "skill_path": { "type": "string" },
+    "live_ingestion_enabled": { "type": "boolean", "const": false },
+    "live_ingestion_attempted": { "type": "boolean", "const": false },
+    "requires_human_execution_review": { "type": "boolean", "const": true },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "status"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "string", "const": "pending" }
+        }
+      }
+    },
+    "non_actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

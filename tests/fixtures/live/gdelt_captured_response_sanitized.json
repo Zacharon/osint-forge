@@ -1,0 +1,47 @@
+{
+  "capture_type": "sanitized_response_shape",
+  "captured_at": "2026-07-02T00:00:00Z",
+  "source_id": "gdelt",
+  "source_policy_version": "fixture",
+  "record_count": 3,
+  "articles": [
+    {
+      "url": "https://example.org/news/port-delays-a",
+      "url_mobile": "https://m.example.org/news/port-delays-a",
+      "title": "Port delays &amp; rerouting reported",
+      "seendate": "20260702073000",
+      "domain": "example.org",
+      "language": "English",
+      "sourcecountry": "United States",
+      "sourceCollectionIdentifier": "WEB",
+      "socialimage": {
+        "type": "str",
+        "length": 36
+      }
+    },
+    {
+      "url": "https://example.org/news/port-delays-a",
+      "url_mobile": "https://m.example.org/news/port-delays-a",
+      "title": "Port delays &amp; rerouting reported",
+      "seendate": "20260702073000",
+      "domain": "example.org",
+      "language": "English",
+      "sourcecountry": "United States",
+      "sourceCollectionIdentifier": "WEB",
+      "socialimage": {
+        "type": "str",
+        "length": 36
+      }
+    },
+    {
+      "url": "https://example.net/world/shipping-update",
+      "title": "Shipping update cites congestion near port terminal",
+      "seendate": "20260702074500",
+      "domain": "example.net",
+      "language": "English",
+      "sourcecountry": "United Kingdom",
+      "sourceCollectionIdentifier": "WEB",
+      "themes": "TRANSPORT;MARITIME"
+    }
+  ]
+}

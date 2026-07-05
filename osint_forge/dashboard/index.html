@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OSINT Forge Live Ops</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell" data-state="loading">
+      <header class="top-bar">
+        <div class="brand-block">
+          <strong>OSINT Forge</strong>
+          <span id="missionLabel">Mission: Baltic Port Watch</span>
+        </div>
+        <label class="search-box">
+          <span>Search</span>
+          <input id="globalSearch" type="search" placeholder="entity, claim, URL, source" />
+        </label>
+        <div class="status-strip">
+          <span class="severity high">High 2</span>
+          <span class="severity medium">Med 5</span>
+          <span class="severity low">Low 18</span>
+          <span id="sourceStatus" class="source-status degraded">Sources degraded</span>
+        </div>
+      </header>
+
+      <nav class="left-rail" aria-label="Primary">
+        <button class="rail-item active" data-view="map" title="Map">Map</button>
+        <button class="rail-item" data-view="missions" title="Missions">Msn</button>
+        <button class="rail-item" data-view="graph" title="Graph">Grf</button>
+        <button class="rail-item" data-view="sources" title="Sources">Src</button>
+        <button class="rail-item" data-view="agents" title="Agents">Agt</button>
+        <button class="rail-item" data-view="reports" title="Reports">Rpt</button>
+        <button class="rail-item" data-view="admin" title="Admin">Adm</button>
+      </nav>
+
+      <main class="main-canvas">
+        <section class="state-row">
+          <div id="loadingState" class="state-pill">Loading mission feed</div>
+          <div id="emptyState" class="state-pill hidden">No matching events</div>
+          <div id="degradedState" class="state-pill warning">Reddit lag elevated</div>
+          <div id="errorState" class="state-pill danger hidden">Adapter error</div>
+        </section>
+        <section class="filter-row" aria-label="Map filters">
+          <label>
+            Source
+            <select id="sourceFilter">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>
+            Time
+            <select id="timeFilter">
+              <option value="">All</option>
+              <option value="1">1h</option>
+              <option value="6">6h</option>
+              <option value="24">24h</option>
+            </select>
+          </label>
+          <label>
+            Confidence
+            <input id="confidenceFilter" type="range" min="0" max="100" value="0" />
+            <span id="confidenceFilterValue">0%</span>
+          </label>
+          <label>
+            Event Type
+            <select id="eventTypeFilter">
+              <option value="">All</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="workspace-grid">
+          <div class="panel map-panel">
+            <div class="panel-head">
+              <h1>Global Event Map</h1>
+              <div class="metric-row">
+                <span>Events <b id="eventCount">0</b></span>
+                <span>Clusters <b id="clusterCount">0</b></span>
+                <span>Confidence <b id="confidenceAvg">0%</b></span>
+              </div>
+            </div>
+            <div id="eventMap" class="event-map" aria-label="Global event map"></div>
+          </div>
+
+          <div class="panel mission-panel">
+            <div class="panel-head">
+              <h2>Mission Board</h2>
+              <span class="clock" id="clock">00:00 UTC</span>
+            </div>
+            <div id="missionBoard" class="mission-board"></div>
+          </div>
+
+          <div class="panel sources-panel">
+            <div class="panel-head">
+              <h2>Source Health</h2>
+              <span id="quotaSummary">Quota nominal</span>
+            </div>
+            <div id="sourceHealth" class="source-health"></div>
+          </div>
+
+          <div class="panel graph-panel">
+            <div class="panel-head">
+              <h2>Memory Graph Explorer</h2>
+              <span id="graphSummary">0 claims</span>
+            </div>
+            <div id="memoryGraph" class="memory-graph"></div>
+          </div>
+
+          <div class="panel agent-panel">
+            <div class="panel-head">
+              <h2>Agent Capital Market</h2>
+              <span id="marketSummary">0 bids</span>
+            </div>
+            <div id="agentMarket" class="agent-market"></div>
+          </div>
+
+          <div class="panel contradiction-panel">
+            <div class="panel-head">
+              <h2>Contradiction Queue</h2>
+              <span id="contradictionCount">0 open</span>
+            </div>
+            <div id="contradictionQueue" class="contradiction-queue"></div>
+          </div>
+
+          <div class="panel report-panel">
+            <div class="panel-head">
+              <h2>Report Builder</h2>
+              <button id="draftReport" class="command-button" type="button">Draft</button>
+            </div>
+            <div id="reportBuilder" class="report-builder"></div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-inspector">
+        <div class="panel inspector-panel">
+          <div class="panel-head">
+            <h2>Inspector</h2>
+            <span id="selectedType">event</span>
+          </div>
+          <div id="inspector"></div>
+        </div>
+      </aside>
+
+      <footer class="bottom-timeline">
+        <div class="timeline-head">
+          <strong>Timeline</strong>
+          <span id="timelineWindow">Last 6h</span>
+        </div>
+        <div id="timeline" class="timeline"></div>
+      </footer>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
