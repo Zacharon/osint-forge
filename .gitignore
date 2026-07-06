@@ -25,6 +25,7 @@ vector_store/
 
 # Local workspaces and generated runtime artifacts
 workspace/
+.kernel_runs/
 runs/*
 !runs/.gitkeep
 memory_checkpoints/*

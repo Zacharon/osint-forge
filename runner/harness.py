@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from runner.ledger import ArtifactLedger, ArtifactLedgerError
 from runner.provider import MockLLMProvider
 from runner.schema_tools import load_schema, validate, validate_evidence_contract_bundle
 
@@ -71,6 +72,7 @@ class GovernedSkillRunner:
         self.memory_root = self.project_root / "memory_checkpoints"
         self.docs_root = self.project_root / "docs"
         self.provider = provider or MockLLMProvider()
+        self.ledger = ArtifactLedger(self.project_root)
 
     def run(self, skill_path: str | Path, *, allow_live_ingestion: bool = False) -> RunResult:
         self._ensure_directories()
@@ -204,6 +206,23 @@ class GovernedSkillRunner:
             encoding="utf-8",
         )
 
+        try:
+            self._append_dry_run_ledger(
+                run_id=run_id,
+                recorded_at=timestamp,
+                skill_file=skill_file,
+                allow_live_ingestion=allow_live_ingestion,
+                live_ingestion_enabled=live_ingestion_enabled,
+                run_state_path=run_state_path,
+                checkpoint_path=checkpoint_path,
+                eval_path=eval_path,
+                review_packet_path=review_packet_path,
+                prior_state=prior_state,
+                run_state=run_state_payload,
+            )
+        except ArtifactLedgerError as exc:
+            raise RunnerError(f"Artifact ledger append failed: {exc}") from exc
+
         return RunResult(
             run_id=run_id,
             run_dir=run_dir,
@@ -213,6 +232,80 @@ class GovernedSkillRunner:
             review_packet_path=review_packet_path,
             artifact_summary_path=artifact_summary_path,
         )
+
+    def _append_dry_run_ledger(
+        self,
+        *,
+        run_id: str,
+        recorded_at: str,
+        skill_file: Path,
+        allow_live_ingestion: bool,
+        live_ingestion_enabled: bool,
+        run_state_path: Path,
+        checkpoint_path: Path,
+        eval_path: Path,
+        review_packet_path: Path,
+        prior_state: dict[str, Any],
+        run_state: dict[str, Any],
+    ) -> None:
+        prior_status = prior_state.get("status") if isinstance(prior_state, dict) else None
+        records = [
+            self.ledger.logical_record(
+                record_type="ExecutionContract",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                payload={
+                    "skill_path": str(skill_file.relative_to(self.project_root)),
+                    "skill_sha256": run_state["skill_sha256"],
+                    "provider": self.provider.name,
+                    "allow_live_ingestion_requested": allow_live_ingestion,
+                    "live_ingestion_enabled": live_ingestion_enabled,
+                    "live_ingestion_attempted": False,
+                    "review_required": True,
+                },
+            ),
+            self.ledger.artifact_record(
+                record_type="RunState",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                artifact_path=run_state_path,
+                metadata={"state_scope": "run", "status": run_state["status"]},
+            ),
+            self.ledger.artifact_record(
+                record_type="MemoryCheckpoint",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                artifact_path=checkpoint_path,
+                metadata={"status": "needs_review"},
+            ),
+            self.ledger.artifact_record(
+                record_type="EvalResult",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                artifact_path=eval_path,
+                metadata={"status": "needs_review", "passed": False},
+            ),
+            self.ledger.artifact_record(
+                record_type="ReviewPacket",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                artifact_path=review_packet_path,
+                metadata={"status": "needs_review"},
+            ),
+            self.ledger.logical_record(
+                record_type="StateTransition",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                payload={
+                    "from_status": prior_status or "none",
+                    "to_status": "needs_review",
+                    "reason": "dry_run_created",
+                    "live_ingestion_enabled": live_ingestion_enabled,
+                    "live_ingestion_attempted": False,
+                },
+            ),
+        ]
+        self.ledger.append_records(records)
 
     def _ensure_directories(self) -> None:
         if not self.schemas_root.is_dir():

@@ -10,6 +10,7 @@ from pathlib import Path
 from runner.approval import GovernedReviewPromoter, ReviewDecisionError
 from runner.cli import main
 from runner.harness import GovernedSkillRunner, sha256_file
+from runner.ledger import ArtifactLedger
 from runner.schema_tools import validate_payload_against_schema
 
 
@@ -51,6 +52,13 @@ class GovernedRunnerApprovalTests(unittest.TestCase):
             self.assertIn(decision_result.review_decision_path.name, artifact_summary)
             self.assertIn(decision_result.execution_plan_path.name, artifact_summary)
             self.assertIn(sha256_file(run_result.run_state_path), artifact_summary)
+            ledger_records = ArtifactLedger(tmp_path).read_records()
+            self.assertEqual(
+                [record["record_type"] for record in ledger_records[-3:]],
+                ["ReviewDecision", "StateTransition", "ExecutionPlan"],
+            )
+            self.assertEqual(ledger_records[-2]["payload"]["from_status"], "needs_review")
+            self.assertEqual(ledger_records[-2]["payload"]["to_status"], "approved")
             self._assert_schema_valid(tmp_path, "review_decision.schema.json", decision)
             self._assert_schema_valid(tmp_path, "execution_plan.schema.json", plan)
             self._assert_schema_valid(tmp_path, "run_state.schema.json", run_state_after)
@@ -111,6 +119,13 @@ class GovernedRunnerApprovalTests(unittest.TestCase):
             self.assertIn("Live ingestion remains disabled.", revision_note)
             self.assertEqual(run_state["status"], "changes_requested")
             self.assertEqual(run_state["revision_note_path"], str(decision_result.revision_note_path))
+            ledger_records = ArtifactLedger(tmp_path).read_records()
+            self.assertEqual(
+                [record["record_type"] for record in ledger_records[-2:]],
+                ["ReviewDecision", "StateTransition"],
+            )
+            self.assertEqual(ledger_records[-2]["metadata"]["decision"], "changes_requested")
+            self.assertEqual(ledger_records[-1]["payload"]["to_status"], "changes_requested")
             self._assert_schema_valid(tmp_path, "run_state.schema.json", run_state)
 
     def test_repeated_decisions_are_rejected_after_terminal_status(self) -> None:
