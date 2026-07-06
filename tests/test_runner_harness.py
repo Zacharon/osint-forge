@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from runner.harness import GovernedSkillRunner, RunnerError
+from runner.ledger import ArtifactLedger, ArtifactLedgerError
 from runner.provider import ProviderResponse
 
 
@@ -27,6 +28,54 @@ class GovernedRunnerTests(unittest.TestCase):
             self.assertTrue(result.review_packet_path.exists())
             self.assertTrue(result.eval_result_path.exists())
             self.assertTrue(result.artifact_summary_path.exists())
+
+    def test_dry_run_appends_kernel_ledger_records(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            skill_path = self._seed_project(tmp_path)
+
+            result = GovernedSkillRunner(tmp_path).run(skill_path)
+
+            ledger = ArtifactLedger(tmp_path)
+            records = ledger.read_records()
+            self.assertEqual(
+                [record["record_type"] for record in records],
+                [
+                    "ExecutionContract",
+                    "RunState",
+                    "MemoryCheckpoint",
+                    "EvalResult",
+                    "ReviewPacket",
+                    "StateTransition",
+                ],
+            )
+            self.assertEqual({record["run_id"] for record in records}, {result.run_id})
+            self.assertTrue(ledger.ledger_path.exists())
+            artifact_paths = [record["artifact_path"] for record in records if "artifact_path" in record]
+            self.assertEqual(
+                artifact_paths,
+                [
+                    f"runs/{result.run_id}/run_state.json",
+                    f"runs/{result.run_id}/memory_checkpoint.json",
+                    f"runs/{result.run_id}/eval_result.json",
+                    f"runs/{result.run_id}/review_packet.md",
+                ],
+            )
+            self.assertEqual(records[-1]["payload"]["to_status"], "needs_review")
+
+    def test_tampered_kernel_ledger_fails_validation_and_next_append(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            skill_path = self._seed_project(tmp_path)
+            GovernedSkillRunner(tmp_path).run(skill_path)
+            ledger = ArtifactLedger(tmp_path)
+            ledger_text = ledger.ledger_path.read_text(encoding="utf-8")
+            ledger.ledger_path.write_text(ledger_text.replace("ExecutionContract", "TamperedContract", 1), encoding="utf-8")
+
+            with self.assertRaisesRegex(ArtifactLedgerError, "record hash mismatch"):
+                ledger.read_records()
+            with self.assertRaisesRegex(RunnerError, "Artifact ledger append failed"):
+                GovernedSkillRunner(tmp_path).run(skill_path)
 
     def test_run_state_update_carries_parent_context_and_updates_project_pointer(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

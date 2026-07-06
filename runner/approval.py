@@ -10,6 +10,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any
 
 from runner.harness import sha256_file, utc_now
+from runner.ledger import ArtifactLedger, ArtifactLedgerError
 from runner.schema_tools import load_schema, validate
 
 
@@ -54,6 +55,7 @@ class GovernedReviewPromoter:
         self.project_root = Path(project_root)
         self.schemas_root = self.project_root / "schemas"
         self.runs_root = self.project_root / "runs"
+        self.ledger = ArtifactLedger(self.project_root)
 
     def decide(
         self,
@@ -162,6 +164,18 @@ class GovernedReviewPromoter:
         self._write_json(run_state_path, updated_run_state)
         self._update_project_current(run_id, updated_run_state)
         self._refresh_artifact_summary(run_state_path=run_state_path, run_state=updated_run_state)
+        try:
+            self._append_review_ledger(
+                run_id=run_id,
+                recorded_at=timestamp,
+                prior_status=prior_status,
+                decision=decision,
+                decision_id=decision_id,
+                review_decision_path=review_decision_path,
+                execution_plan_path=execution_plan_path,
+            )
+        except ArtifactLedgerError as exc:
+            raise ReviewDecisionError(f"artifact ledger append failed: {exc}") from exc
 
         return ReviewDecisionResult(
             run_id=run_id,
@@ -171,6 +185,52 @@ class GovernedReviewPromoter:
             execution_plan_path=execution_plan_path,
             revision_note_path=revision_note_path,
         )
+
+    def _append_review_ledger(
+        self,
+        *,
+        run_id: str,
+        recorded_at: str,
+        prior_status: str,
+        decision: str,
+        decision_id: str,
+        review_decision_path: Path,
+        execution_plan_path: Path | None,
+    ) -> None:
+        records = [
+            self.ledger.artifact_record(
+                record_type="ReviewDecision",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                artifact_path=review_decision_path,
+                metadata={"decision": decision, "decision_id": decision_id},
+            ),
+            self.ledger.logical_record(
+                record_type="StateTransition",
+                run_id=run_id,
+                recorded_at=recorded_at,
+                payload={
+                    "from_status": prior_status,
+                    "to_status": decision,
+                    "reason": "review_decision_recorded",
+                    "decision": decision,
+                    "decision_id": decision_id,
+                    "live_ingestion_enabled": False,
+                    "live_ingestion_attempted": False,
+                },
+            ),
+        ]
+        if execution_plan_path:
+            records.append(
+                self.ledger.artifact_record(
+                    record_type="ExecutionPlan",
+                    run_id=run_id,
+                    recorded_at=recorded_at,
+                    artifact_path=execution_plan_path,
+                    metadata={"decision": decision, "decision_id": decision_id, "status": "plan_ready"},
+                )
+            )
+        self.ledger.append_records(records)
 
     def _resolve_run_dir(self, run_id: str) -> Path:
         if not isinstance(run_id, str) or not run_id:

@@ -9,6 +9,7 @@ It is intentionally narrow:
 - loads recent memory checkpoints from `memory_checkpoints/`
 - creates a new governed run folder under `runs/`
 - emits structured reviewable artifacts
+- appends hash-chained records to the project-local kernel artifact ledger
 - forces the run state to `needs_review`
 - keeps live ingestion disabled by default
 
@@ -60,6 +61,36 @@ The harness also updates:
 
 - `runs/run_state.json`
 - `memory_checkpoints/<run-id>.json`
+
+## Kernel Artifact Ledger
+
+The runner appends a local JSONL ledger at:
+
+- `.kernel_runs/ledger/artifact_ledger.jsonl`
+
+`.kernel_runs/` is generated local state and should remain ignored by Git.
+Each ledger line is hash-chained with `prev_record_hash` and `record_hash`.
+Reading or appending the ledger validates the chain and fails if a prior line has
+been corrupted.
+
+Dry runs append these record types:
+
+- `ExecutionContract`
+- `RunState`
+- `MemoryCheckpoint`
+- `EvalResult`
+- `ReviewPacket`
+- `StateTransition`
+
+Review decisions append:
+
+- `ReviewDecision`
+- `StateTransition`
+- `ExecutionPlan` when the decision is `approved`
+
+Ledger failures are not ignored. If the ledger cannot be read, validated,
+created, or appended, the runner raises an error instead of reporting a clean
+dry run or approval.
 
 ## Review Packet Evidence
 
