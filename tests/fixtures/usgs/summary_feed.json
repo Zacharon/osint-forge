@@ -1,0 +1,49 @@
+{
+  "_fixture": "Hand-built fixture in the USGS GeoJSON summary format. Not live data.",
+  "type": "FeatureCollection",
+  "metadata": {"generated": 1792368000000, "title": "USGS Magnitude 2.5+ Earthquakes, Past Week (fixture)", "status": 200, "count": 6},
+  "features": [
+    {
+      "type": "Feature",
+      "id": "us7000fx01",
+      "properties": {"mag": 5.8, "place": "40 km SSE of Bandar Abbas, Iran", "time": 1792293120000, "updated": 1792294000000,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000fx01", "felt": 12, "tsunami": 0, "sig": 518,
+        "status": "reviewed", "title": "M 5.8 - 40 km SSE of Bandar Abbas, Iran"},
+      "geometry": {"type": "Point", "coordinates": [56.42, 26.84, 10.0]}
+    },
+    {
+      "type": "Feature",
+      "id": "ak0fx02",
+      "properties": {"mag": 2.9, "place": "Central Alaska", "time": 1792300000000, "updated": 1792300500000,
+        "url": "https://example.com/not-usgs", "felt": null, "tsunami": 0, "sig": 129,
+        "status": "automatic", "title": "M 2.9 - Central Alaska"},
+      "geometry": {"type": "Point", "coordinates": [-150.1, 63.2, 0.0]}
+    },
+    {
+      "type": "Feature",
+      "id": "us7000fx03",
+      "properties": {"mag": 4.6, "place": "South of the Fiji Islands", "time": 1792310000000, "updated": 1792310900000,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000fx03", "tsunami": 1, "sig": 326,
+        "status": "reviewed", "title": "M 4.6 - South of the Fiji Islands"},
+      "geometry": {"type": "Point", "coordinates": [178.5, -24.9, 550.2]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"mag": 3.1, "place": "No id", "time": 1792320000000, "status": "automatic"},
+      "geometry": {"type": "Point", "coordinates": [10.0, 10.0, 5.0]}
+    },
+    {
+      "type": "Feature",
+      "id": "us7000fx05",
+      "properties": {"mag": 3.3, "place": "Missing coordinates", "time": 1792330000000, "updated": 1792330000000, "status": "automatic"},
+      "geometry": {"type": "Point", "coordinates": []}
+    },
+    {
+      "type": "Feature",
+      "id": "nc7000fx06",
+      "properties": {"mag": 3.0, "place": "Off the coast of Northern California", "time": 1792340000000, "updated": 1792340000000,
+        "status": "automatic", "title": "M 3.0 - Off the coast of Northern California"},
+      "geometry": {"type": "Point", "coordinates": [0, 0, 1.0]}
+    }
+  ]
+}
