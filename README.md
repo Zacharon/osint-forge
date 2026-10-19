@@ -31,6 +31,10 @@ osint_forge/
 |   +-- capital_market.py
 +-- memory/
 |   +-- graph.py
++-- ontology/
+|   +-- model.py
+|   +-- store.py
+|   +-- sql/
 +-- dashboard/
 |   +-- events_api.py
 |   +-- index.html
@@ -65,6 +69,10 @@ osint_forge/
 - Live map ingestion uses `raw_payloads` for raw source audit records and `normalized_events` for sanitized dashboard events.
 - `SourceBiasEstimator` outputs provenance-backed indicators, not truth verdicts or private-person dossiers.
 - v3.3 live runs write `live_source_audit` artifacts with source policy version, requested/returned counts, sanitizer/schema results, and hashes written.
+
+## Ontology Core
+
+`osint_forge.ontology` holds typed objects (events, places, organizations, vessels, facilities, documents, claims, assessments) and typed, time-bounded links that must cite evidence. It stores full revision history and an audit log in SQLite or PostgreSQL. This is the record store Live Map will read from. See `docs/ONTOLOGY.md`.
 
 ## Agentic Intelligence Layers
 
@@ -155,6 +163,8 @@ python -m osint_forge.main --db .\osint_forge.db report --mission m-001
 ```powershell
 python -m unittest discover -s tests
 ```
+
+PostgreSQL contract tests run when `FORGE_TEST_DATABASE_URL` points at a disposable database (`pip install 'osint-forge[postgres]'`).
 
 The tests cover canonicalized PII blocking, schema drift rejection, review hash binding, GDELT fixture PII gating, ingestion idempotency, resume without rerunning completed tools, artifact reconciliation, SAT fail-closed behavior, report generation after review, red-team cases, live adapter health/dedup/outage behavior, live map safety gates, live audit artifacts, captured GDELT response regression, raw/normalized event separation, source registry validation, source discovery inference/diffing, source-bias provenance requirements, memory graph promotion/rejection/provenance, market bid approval/budget/penalty behavior, and dashboard scaffold coverage.
 

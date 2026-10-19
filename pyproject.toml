@@ -5,6 +5,9 @@ description = "Governed async OSINT mission orchestration with privacy, SAT, rev
 requires-python = ">=3.11"
 dependencies = []
 
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.1"]
+
 [project.scripts]
 osint-forge = "osint_forge.main:main"
 osint-forge-review = "osint_forge.review.review_cli:main"
@@ -12,3 +15,6 @@ osint-forge-review = "osint_forge.review.review_cli:main"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.setuptools.package-data]
+"osint_forge.ontology" = ["sql/*.sql", "sql/postgres/*.sql"]
