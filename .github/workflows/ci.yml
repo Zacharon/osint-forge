@@ -44,5 +44,5 @@ jobs:
           python-version: "3.12"
       - name: Install PostgreSQL driver
         run: python -m pip install "psycopg[binary]>=3.1"
-      - name: Run ontology tests against PostgreSQL
-        run: python -m unittest tests.test_ontology -v
+      - name: Run ontology and feed tests against PostgreSQL
+        run: python -m unittest tests.test_ontology tests.test_api -v

@@ -50,8 +50,9 @@ The PostgreSQL schema lives in `osint_forge/ontology/sql/postgres/` and is appli
 
 Set `FORGE_TEST_DATABASE_URL` to run the PostgreSQL tests locally. CI runs them against a PostgreSQL 16 service.
 
+The read-only HTTP API and the Live Map feed are described in [API.md](API.md).
+
 ## Not yet
 
-- An HTTP API and the public projection feed Live Map will consume.
 - Moving the existing `NormalizedOSINTEvent` and memory-graph data onto these objects.
 - Entity resolution that proposes `same_as` links.
