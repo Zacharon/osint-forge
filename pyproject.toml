@@ -12,6 +12,7 @@ postgres = ["psycopg[binary]>=3.1"]
 osint-forge = "osint_forge.main:main"
 osint-forge-review = "osint_forge.review.review_cli:main"
 osint-forge-api = "osint_forge.api.app:main"
+osint-forge-usgs = "osint_forge.ingestion.usgs:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

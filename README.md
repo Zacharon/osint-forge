@@ -81,6 +81,17 @@ osint_forge/
 
 `osint-forge-api --db forge.db` serves the store read-only over HTTP: `/objects`, `/events`, `/claims`, `/assessments`, `/search`, object history, links and neighborhoods, and `/api/events`, a public feed in the shape Live Map already reads. A shared conformance fixture keeps the feed and Live Map's contract in step. See `docs/API.md`.
 
+## USGS Earthquakes
+
+USGS is the first source moved from Live Map into Forge. `osint-forge-usgs` writes the USGS summary feed into the ontology as `event` objects, which then appear in `/api/events`:
+
+```bash
+osint-forge-usgs --db forge.db --file saved_feed.geojson      # a saved feed
+osint-forge-usgs --db forge.db --live --confirm-live          # the live feed, gated by config/source_registry.json
+```
+
+An unchanged feature writes nothing, and a USGS correction becomes a new revision. Out-of-order corrections are ignored. A deleted feature leaves the public feed but keeps its history. Source links are kept only on `earthquake.usgs.gov`. The code is in `osint_forge/ingestion/usgs.py`, and the tests use the hand-built fixture `tests/fixtures/usgs/summary_feed.json`.
+
 ## Agentic Intelligence Layers
 
 - `osint_forge.ingestion.live_adapters` defines `IngestionAdapter`, `NormalizedOSINTEvent`, health tracking, raw-payload storage, deduplication, rate limiting, retries, and source-specific adapters for GDELT, Reddit, Telegram, and X.

@@ -91,6 +91,29 @@
       "last_verified_at": "2026-07-02",
       "raw_payload_retention": "disabled scaffold; no live collection",
       "notes": "Disabled until official API access, rules, quota budget, and fetcher/client are supplied."
+    },
+    {
+      "source_id": "usgs",
+      "display_name": "USGS Earthquake Hazards Program",
+      "adapter": "osint_forge.ingestion.usgs",
+      "api_docs_url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php",
+      "auth_required": false,
+      "enabled": true,
+      "legal_basis": "Public-domain U.S. Government data published by USGS for public use.",
+      "collection_mode": "poll",
+      "rate_limit": "One summary feed request per run; USGS updates the feed about every minute.",
+      "rate_limit_policy": "Poll the summary feed no more than once a minute; never scrape event pages.",
+      "allowed_use": "Public earthquake events for the Forge ontology and the Live Map feed.",
+      "pii_risk": "low",
+      "pii_policy": "The feed carries no personal data; only allowlisted fields are stored.",
+      "license_notes": "USGS data is in the U.S. public domain; credit USGS as the source.",
+      "storage_policy": "Store event objects with full revision history; withdrawn events stay in history and leave the public feed.",
+      "live_enabled_default": false,
+      "live_capable": true,
+      "operator_approval_required": true,
+      "last_verified_at": "2026-10-19",
+      "raw_payload_retention": "No raw payload store; each revision keeps a content hash of the source feature.",
+      "notes": "Ported from Live Map's USGS provider. Live runs need --live and --confirm-live."
     }
   ]
 }
