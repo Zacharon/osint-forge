@@ -161,3 +161,7 @@ The tests cover canonicalized PII blocking, schema drift rejection, review hash 
 ## Next Engineering Step
 
 Keep GDELT as the only live-capable source until DOC-to-GEO enrichment and real response drift handling are stable. The v3.3 smoke showed DOC article results can lack coordinates, so the map should not be broadened until GEO enrichment is verified. Other sources stay disabled until official clients, credentials, quota policy, and retention controls are reviewed.
+
+## License
+
+Licensed under the [Apache License 2.0](LICENSE).

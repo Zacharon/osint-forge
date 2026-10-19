@@ -30,3 +30,6 @@ runs/*
 !runs/.gitkeep
 memory_checkpoints/*
 !memory_checkpoints/.gitkeep
+
+# Local agent tooling
+.agents/

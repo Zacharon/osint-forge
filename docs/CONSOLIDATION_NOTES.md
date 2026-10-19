@@ -1,6 +1,6 @@
 # Consolidation Notes
 
-The active repository at `C:\Users\zacha\OneDrive\Documents\OSINT Forhe` was initially an empty Git repository. The project name is OSINT Forge; the local folder name contains a typo (`Forhe`) and should be renamed outside an active tool session if desired. The OSINT Forge v3.1+ fragments were found in `C:\Users\zacha\Downloads`.
+This repository was initially an empty Git repository. The OSINT Forge v3.1+ fragments were found in a local downloads folder outside the repository.
 
 ## Source Fragments Found
 
@@ -21,7 +21,7 @@ The active repository at `C:\Users\zacha\OneDrive\Documents\OSINT Forhe` was ini
 - The orchestrator variants supplied the required governance architecture, async tool execution, SAT fail-closed behavior, workspace jail, and resume requirements.
 - `source_ancestry.py` was incomplete, so the final `osint_forge.analytics.source_ancestry` module implements deterministic clustering, relationship classification, and independence scoring directly.
 
-The original Downloads files were not deleted or modified. The canonical working implementation now lives under `osint_forge/`.
+The original downloaded fragment files were not deleted or modified. The canonical working implementation now lives under `osint_forge/`.
 
 ## Phase 2: First Ingestion Layer
 
