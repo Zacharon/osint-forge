@@ -1,0 +1,686 @@
+{
+  "contract": "live-map /api/events envelope, as documented in Zacharon/live-map docs/API_CONTRACTS.md and src/events/normalized-event.js",
+  "version": 1,
+  "notes": [
+    "Fixture data, not live records.",
+    "Both Forge and Live Map should validate responses against `schema`.",
+    "Forge must reproduce `expected` exactly from `objects` at `now` with `query`."
+  ],
+  "now": "2026-10-19T00:00:00Z",
+  "query": {},
+  "objects": [
+    {
+      "id": "event:usgs-us7000abcd",
+      "type": "event",
+      "label": "M 5.8 - 40 km SSE of Bandar Abbas, Iran",
+      "lat": 26.84,
+      "lon": 56.42,
+      "valid_from": "2026-10-18T03:12:00Z",
+      "properties": {
+        "provider": "usgs",
+        "source_name": "USGS Earthquake Hazards Program",
+        "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000abcd",
+        "source_type": "Official",
+        "source_tier": "official",
+        "category": "earthquake",
+        "domain": "natural-hazards",
+        "country_code": "IRN",
+        "country_name": "Iran",
+        "location_name": "40 km SSE of Bandar Abbas",
+        "severity": 70,
+        "confidence": 0.95,
+        "status": "active",
+        "verification_status": "official",
+        "source_published_at": "2026-10-18T03:20:00Z",
+        "tags": [
+          "earthquake",
+          "earthquake",
+          "hormuz"
+        ],
+        "affected_chokepoints": [
+          "strait-of-hormuz"
+        ]
+      },
+      "provenance": [
+        {
+          "source": "usgs",
+          "locator": "usgs:us7000abcd",
+          "observedAt": "2026-10-18T03:25:00Z",
+          "contentHash": "fixture-usgs-1"
+        }
+      ]
+    },
+    {
+      "id": "event:notice-hormuz-advisory",
+      "type": "event",
+      "label": "Maritime security advisory issued for the Strait of Hormuz",
+      "valid_from": "2026-10-17T12:00:00Z",
+      "properties": {
+        "category": "maritime-advisory",
+        "domain": "maritime",
+        "description": "Advisory issued; issued is not closed.",
+        "severity": 45,
+        "source_url": "https://user:secret@example.org/notice",
+        "public": true
+      },
+      "provenance": [
+        {
+          "source": "maritime-notices",
+          "locator": "notice:2026-117",
+          "observedAt": "2026-10-17T13:00:00Z",
+          "contentHash": "fixture-notice-1"
+        },
+        {
+          "source": "port-authority",
+          "locator": "pa:bulletin-88",
+          "observedAt": "2026-10-17T14:30:00Z",
+          "contentHash": "fixture-pa-1"
+        }
+      ]
+    },
+    {
+      "id": "event:restricted-draft",
+      "type": "event",
+      "label": "Analyst draft not cleared for publication",
+      "lat": 25.0,
+      "lon": 55.0,
+      "valid_from": "2026-10-18T00:00:00Z",
+      "properties": {
+        "public": false
+      },
+      "provenance": [
+        {
+          "source": "analyst",
+          "locator": "draft:1",
+          "observedAt": "2026-10-18T01:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "event:old-port-delay",
+      "type": "event",
+      "label": "Port delay outside the default window",
+      "lat": 0.0,
+      "lon": 0.0,
+      "valid_from": "2026-10-01T00:00:00Z",
+      "properties": {
+        "severity": 10
+      },
+      "provenance": [
+        {
+          "source": "fixture",
+          "locator": "old:1",
+          "observedAt": "2026-10-01T01:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "place:strait-of-hormuz",
+      "type": "place",
+      "label": "Strait of Hormuz",
+      "lat": 26.57,
+      "lon": 56.25,
+      "properties": {
+        "kind": "chokepoint"
+      },
+      "provenance": [
+        {
+          "source": "fixture",
+          "locator": "place:hormuz",
+          "observedAt": "2026-10-01T00:00:00Z"
+        }
+      ]
+    }
+  ],
+  "schema": {
+    "envelope": {
+      "events": [
+        "array"
+      ],
+      "canonicalEvents": [
+        "array"
+      ],
+      "generatedAt": [
+        "number"
+      ],
+      "filters": [
+        "object"
+      ],
+      "sources": [
+        "array"
+      ],
+      "sourceStatus": [
+        "object"
+      ],
+      "sourceRegistry": [
+        "object"
+      ],
+      "providerSourceRegistry": [
+        "object"
+      ],
+      "domainSourceStatus": [
+        "object"
+      ],
+      "providerResults": [
+        "array"
+      ],
+      "systemStatus": [
+        "string"
+      ],
+      "mode": [
+        "string"
+      ],
+      "errors": [
+        "array"
+      ],
+      "changeCursor": [
+        "string",
+        "null"
+      ]
+    },
+    "filters": {
+      "recordKind": [
+        "string",
+        "null"
+      ],
+      "verification": [
+        "string",
+        "null"
+      ],
+      "domain": [
+        "string",
+        "null"
+      ],
+      "country": [
+        "string",
+        "null"
+      ]
+    },
+    "canonicalEvent": {
+      "id": [
+        "string"
+      ],
+      "provider": [
+        "string"
+      ],
+      "providerEventId": [
+        "string",
+        "null"
+      ],
+      "recordKind": [
+        "string"
+      ],
+      "title": [
+        "string"
+      ],
+      "description": [
+        "string",
+        "null"
+      ],
+      "category": [
+        "string"
+      ],
+      "latitude": [
+        "number",
+        "null"
+      ],
+      "longitude": [
+        "number",
+        "null"
+      ],
+      "geographic": [
+        "boolean"
+      ],
+      "mapDisplayStatus": [
+        "string"
+      ],
+      "countryCode": [
+        "string",
+        "null"
+      ],
+      "countryName": [
+        "string",
+        "null"
+      ],
+      "locationName": [
+        "string",
+        "null"
+      ],
+      "startedAt": [
+        "string",
+        "null"
+      ],
+      "updatedAt": [
+        "string",
+        "null"
+      ],
+      "ingestedAt": [
+        "string"
+      ],
+      "severity": [
+        "number"
+      ],
+      "severityLabel": [
+        "string"
+      ],
+      "confidence": [
+        "number",
+        "null"
+      ],
+      "status": [
+        "string"
+      ],
+      "sourceName": [
+        "string"
+      ],
+      "sourceUrl": [
+        "string",
+        "null"
+      ],
+      "sourcePublishedAt": [
+        "string",
+        "null"
+      ],
+      "lastVerifiedAt": [
+        "string",
+        "null"
+      ],
+      "tags": [
+        "array"
+      ],
+      "metadata": [
+        "object"
+      ]
+    },
+    "legacyEvent": {
+      "id": [
+        "string"
+      ],
+      "title": [
+        "string"
+      ],
+      "lat": [
+        "number",
+        "null"
+      ],
+      "lon": [
+        "number",
+        "null"
+      ],
+      "severity": [
+        "string"
+      ],
+      "severityScore": [
+        "number"
+      ],
+      "uiSeverity": [
+        "string"
+      ],
+      "occurredAt": [
+        "number",
+        "null"
+      ],
+      "updatedAt": [
+        "number",
+        "null"
+      ],
+      "ingestedAt": [
+        "number",
+        "null"
+      ],
+      "firstReportedAt": [
+        "number",
+        "null"
+      ],
+      "lastVerifiedAt": [
+        "number",
+        "null"
+      ],
+      "country": [
+        "string"
+      ],
+      "place": [
+        "string"
+      ],
+      "summary": [
+        "string"
+      ],
+      "source": [
+        "string"
+      ],
+      "recordKind": [
+        "string"
+      ],
+      "geographic": [
+        "boolean"
+      ]
+    },
+    "enums": {
+      "recordKind": [
+        "event",
+        "observation",
+        "discovery-lead",
+        "moving-object"
+      ],
+      "severityLabel": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ],
+      "uiSeverity": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "status": [
+        "active",
+        "monitoring",
+        "resolved",
+        "unknown"
+      ],
+      "mapDisplayStatus": [
+        "mapped",
+        "not-mapped"
+      ]
+    }
+  },
+  "expected": {
+    "events": [
+      {
+        "id": "event:usgs-us7000abcd",
+        "provider": "usgs",
+        "providerEventId": "usgs-us7000abcd",
+        "recordKind": "event",
+        "title": "M 5.8 - 40 km SSE of Bandar Abbas, Iran",
+        "description": null,
+        "category": "earthquake",
+        "domain": "natural-hazards",
+        "latitude": 26.84,
+        "longitude": 56.42,
+        "geographic": true,
+        "mapDisplayStatus": "mapped",
+        "nonGeographicReason": null,
+        "countryCode": "IRN",
+        "countryName": "Iran",
+        "region": null,
+        "locationName": "40 km SSE of Bandar Abbas",
+        "startedAt": "2026-10-18T03:12:00.000Z",
+        "updatedAt": null,
+        "ingestedAt": 1792293900000,
+        "severity": "high",
+        "severityLabel": "high",
+        "confidence": 95.0,
+        "independentSourceCount": 1,
+        "verificationStatus": "official",
+        "status": "active",
+        "sourceName": "USGS Earthquake Hazards Program",
+        "sourceUrl": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000abcd",
+        "sourceType": "Official",
+        "sourceTier": "official",
+        "publisher": "USGS Earthquake Hazards Program",
+        "language": null,
+        "verification": null,
+        "publicationPolicy": null,
+        "clusterId": null,
+        "sourcePublishedAt": "2026-10-18T03:20:00.000Z",
+        "lastVerifiedAt": null,
+        "geometry": null,
+        "chokepointCorrelations": [],
+        "metadata": {
+          "forge": {
+            "objectId": "event:usgs-us7000abcd",
+            "contentHash": "7fb5f590d582823723e7921f0ed02664a5cb61c47a1e90717f9df6bb319954c5"
+          }
+        },
+        "tags": [
+          "earthquake",
+          "hormuz"
+        ],
+        "strategicAreas": [],
+        "affectedChokepoints": [
+          "strait-of-hormuz"
+        ],
+        "impactTypes": [],
+        "providerId": "usgs-us7000abcd",
+        "severityScore": 70.0,
+        "uiSeverity": "high",
+        "lat": 26.84,
+        "lon": 56.42,
+        "country": "Iran",
+        "place": "40 km SSE of Bandar Abbas",
+        "location": "40 km SSE of Bandar Abbas",
+        "occurredAt": 1792293120000,
+        "firstReportedAt": 1792293600000,
+        "summary": "",
+        "source": "USGS Earthquake Hazards Program",
+        "providerName": "USGS Earthquake Hazards Program",
+        "severityReason": "Severity is recorded on the Forge event object.",
+        "coordinateMethod": "Precision not supplied",
+        "details": {}
+      },
+      {
+        "id": "event:notice-hormuz-advisory",
+        "provider": "maritime-notices",
+        "providerEventId": "notice-hormuz-advisory",
+        "recordKind": "event",
+        "title": "Maritime security advisory issued for the Strait of Hormuz",
+        "description": "Advisory issued; issued is not closed.",
+        "category": "maritime-advisory",
+        "domain": "maritime",
+        "latitude": null,
+        "longitude": null,
+        "geographic": false,
+        "mapDisplayStatus": "not-mapped",
+        "nonGeographicReason": "Geography not supplied",
+        "countryCode": null,
+        "countryName": null,
+        "region": null,
+        "locationName": null,
+        "startedAt": "2026-10-17T12:00:00.000Z",
+        "updatedAt": null,
+        "ingestedAt": 1792247400000,
+        "severity": "medium",
+        "severityLabel": "moderate",
+        "confidence": null,
+        "independentSourceCount": 2,
+        "verificationStatus": null,
+        "status": "unknown",
+        "sourceName": "maritime-notices",
+        "sourceUrl": null,
+        "sourceType": "Unknown",
+        "sourceTier": null,
+        "publisher": "maritime-notices",
+        "language": null,
+        "verification": null,
+        "publicationPolicy": null,
+        "clusterId": null,
+        "sourcePublishedAt": null,
+        "lastVerifiedAt": null,
+        "geometry": null,
+        "chokepointCorrelations": [],
+        "metadata": {
+          "forge": {
+            "objectId": "event:notice-hormuz-advisory",
+            "contentHash": "6421d7bf4a30be77391e13f5030ae23c5ccbb7d2756b4af23ebf855256e9e3b6"
+          }
+        },
+        "tags": [],
+        "strategicAreas": [],
+        "affectedChokepoints": [],
+        "impactTypes": [],
+        "providerId": "notice-hormuz-advisory",
+        "severityScore": 45.0,
+        "uiSeverity": "medium",
+        "lat": null,
+        "lon": null,
+        "country": "Multiple/unknown",
+        "place": "Unknown location",
+        "location": "Unknown location",
+        "occurredAt": 1792238400000,
+        "firstReportedAt": null,
+        "summary": "Advisory issued; issued is not closed.",
+        "source": "maritime-notices",
+        "providerName": "maritime-notices",
+        "severityReason": "Severity is recorded on the Forge event object.",
+        "coordinateMethod": "Precision not supplied",
+        "details": {}
+      }
+    ],
+    "canonicalEvents": [
+      {
+        "id": "event:usgs-us7000abcd",
+        "provider": "usgs",
+        "providerEventId": "usgs-us7000abcd",
+        "recordKind": "event",
+        "title": "M 5.8 - 40 km SSE of Bandar Abbas, Iran",
+        "description": null,
+        "category": "earthquake",
+        "domain": "natural-hazards",
+        "latitude": 26.84,
+        "longitude": 56.42,
+        "geographic": true,
+        "mapDisplayStatus": "mapped",
+        "nonGeographicReason": null,
+        "countryCode": "IRN",
+        "countryName": "Iran",
+        "region": null,
+        "locationName": "40 km SSE of Bandar Abbas",
+        "startedAt": "2026-10-18T03:12:00.000Z",
+        "updatedAt": null,
+        "ingestedAt": "2026-10-18T03:25:00.000Z",
+        "severity": 70.0,
+        "severityLabel": "high",
+        "confidence": 95.0,
+        "independentSourceCount": 1,
+        "verificationStatus": "official",
+        "status": "active",
+        "sourceName": "USGS Earthquake Hazards Program",
+        "sourceUrl": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000abcd",
+        "sourceType": "Official",
+        "sourceTier": "official",
+        "publisher": "USGS Earthquake Hazards Program",
+        "language": null,
+        "verification": null,
+        "publicationPolicy": null,
+        "clusterId": null,
+        "sourcePublishedAt": "2026-10-18T03:20:00.000Z",
+        "lastVerifiedAt": null,
+        "geometry": null,
+        "chokepointCorrelations": [],
+        "metadata": {
+          "forge": {
+            "objectId": "event:usgs-us7000abcd",
+            "contentHash": "7fb5f590d582823723e7921f0ed02664a5cb61c47a1e90717f9df6bb319954c5"
+          }
+        },
+        "tags": [
+          "earthquake",
+          "hormuz"
+        ],
+        "strategicAreas": [],
+        "affectedChokepoints": [
+          "strait-of-hormuz"
+        ],
+        "impactTypes": []
+      },
+      {
+        "id": "event:notice-hormuz-advisory",
+        "provider": "maritime-notices",
+        "providerEventId": "notice-hormuz-advisory",
+        "recordKind": "event",
+        "title": "Maritime security advisory issued for the Strait of Hormuz",
+        "description": "Advisory issued; issued is not closed.",
+        "category": "maritime-advisory",
+        "domain": "maritime",
+        "latitude": null,
+        "longitude": null,
+        "geographic": false,
+        "mapDisplayStatus": "not-mapped",
+        "nonGeographicReason": "Geography not supplied",
+        "countryCode": null,
+        "countryName": null,
+        "region": null,
+        "locationName": null,
+        "startedAt": "2026-10-17T12:00:00.000Z",
+        "updatedAt": null,
+        "ingestedAt": "2026-10-17T14:30:00.000Z",
+        "severity": 45.0,
+        "severityLabel": "moderate",
+        "confidence": null,
+        "independentSourceCount": 2,
+        "verificationStatus": null,
+        "status": "unknown",
+        "sourceName": "maritime-notices",
+        "sourceUrl": null,
+        "sourceType": "Unknown",
+        "sourceTier": null,
+        "publisher": "maritime-notices",
+        "language": null,
+        "verification": null,
+        "publicationPolicy": null,
+        "clusterId": null,
+        "sourcePublishedAt": null,
+        "lastVerifiedAt": null,
+        "geometry": null,
+        "chokepointCorrelations": [],
+        "metadata": {
+          "forge": {
+            "objectId": "event:notice-hormuz-advisory",
+            "contentHash": "6421d7bf4a30be77391e13f5030ae23c5ccbb7d2756b4af23ebf855256e9e3b6"
+          }
+        },
+        "tags": [],
+        "strategicAreas": [],
+        "affectedChokepoints": [],
+        "impactTypes": []
+      }
+    ],
+    "generatedAt": 1792368000000,
+    "filters": {
+      "recordKind": null,
+      "verification": null,
+      "domain": null,
+      "country": null
+    },
+    "hours": 168,
+    "sources": [
+      "USGS Earthquake Hazards Program",
+      "maritime-notices"
+    ],
+    "sourceStatus": {
+      "osint-forge": {
+        "ok": true,
+        "mode": "forge-ontology",
+        "count": 2,
+        "lastSuccessAt": 1792368000000,
+        "stale": false,
+        "truncated": false
+      }
+    },
+    "sourceRegistry": {},
+    "providerSourceRegistry": {},
+    "domainSourceStatus": {},
+    "providerResults": [
+      {
+        "provider": "osint-forge",
+        "ok": true,
+        "count": 2,
+        "mode": "forge-ontology"
+      }
+    ],
+    "observationSummary": {
+      "total": 0,
+      "retained": "metadata-only",
+      "coverageGaps": []
+    },
+    "storylines": [],
+    "observations": [],
+    "systemStatus": "operational",
+    "changeCursor": null,
+    "mode": "forge-ontology",
+    "errors": [],
+    "warnings": []
+  }
+}

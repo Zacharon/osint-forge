@@ -35,6 +35,9 @@ osint_forge/
 |   +-- model.py
 |   +-- store.py
 |   +-- sql/
++-- api/
+|   +-- app.py
+|   +-- projection.py
 +-- dashboard/
 |   +-- events_api.py
 |   +-- index.html
@@ -73,6 +76,10 @@ osint_forge/
 ## Ontology Core
 
 `osint_forge.ontology` holds typed objects (events, places, organizations, vessels, facilities, documents, claims, assessments) and typed, time-bounded links that must cite evidence. It stores full revision history and an audit log in SQLite or PostgreSQL. This is the record store Live Map will read from. See `docs/ONTOLOGY.md`.
+
+## Forge API
+
+`osint-forge-api --db forge.db` serves the store read-only over HTTP: `/objects`, `/events`, `/claims`, `/assessments`, `/search`, object history, links and neighborhoods, and `/api/events`, a public feed in the shape Live Map already reads. A shared conformance fixture keeps the feed and Live Map's contract in step. See `docs/API.md`.
 
 ## Agentic Intelligence Layers
 
