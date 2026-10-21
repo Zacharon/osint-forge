@@ -42,6 +42,7 @@ How an `event` object becomes a feed event:
 - `ingestedAt` is the latest provenance retrieval time. It describes processing, never when the event happened.
 - `independentSourceCount` counts distinct provenance sources on the event. Entity resolution will later group re-acquisitions of one origin.
 - `metadata.forge` carries the object id and content hash so Live Map can link back.
+- For USGS events, `metadata` also carries the allowlisted `usgsId`, `magnitude`, `depthKm`, `tsunami`, `feltReports`, `significance`, and `rawStatus` when present on the stored object. These fields appear in both canonical and legacy events; raw source payloads are never projected. The Forge `id` remains `event:usgs-<USGS id>` and `providerEventId` remains `usgs-<USGS id>`; `metadata.usgsId` preserves the original source id.
 
 Invalid filters are ignored and reported in `warnings`, as Live Map does.
 

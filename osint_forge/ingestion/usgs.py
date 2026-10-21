@@ -206,13 +206,16 @@ def ingest_usgs_feed(
             summary.rejected.append({"id": "", "reason": "missing-stable-id"})
             continue
         props = feature.get("properties") or {}
+        updated = _iso_from_ms(props.get("updated"))
+        if updated is None:
+            summary.rejected.append({"id": feature_id, "reason": "invalid-source-update-time"})
+            continue
         existing = store.get_object(f"event:usgs-{feature_id}")
         if str(props.get("status") or "").lower() in WITHDRAWAL_STATUSES:
             accepted += 1
-            if existing is None or existing.properties.get("withdrawn"):
+            if existing is None:
                 summary.unchanged += 1
                 continue
-            updated = _iso_from_ms(props.get("updated")) or summary.retrieved_at
             if _is_older(updated, existing.properties.get("updated_at")):
                 summary.stale += 1
                 continue
@@ -225,8 +228,11 @@ def ingest_usgs_feed(
                 "updated_at": updated,
             }
             existing.provenance = [*existing.provenance, _provenance(feature_id, feature, summary.retrieved_at)]
-            store.upsert_object(existing, actor=actor)
-            summary.withdrawn += 1
+            _, changed = store.upsert_object(existing, actor=actor)
+            if changed:
+                summary.withdrawn += 1
+            else:
+                summary.unchanged += 1
             continue
         try:
             event = feature_to_event(feature, summary.retrieved_at)

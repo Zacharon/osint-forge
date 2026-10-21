@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+import copy
 import json
+import os
+import tempfile
 import unittest
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from unittest import mock
 
-from osint_forge.api import events_feed
+from osint_forge.api import ForgeApi, events_feed
 from osint_forge.ingestion import usgs
 from osint_forge.ingestion.source_registry import SourceRegistry, SourceRegistryError
 from osint_forge.ingestion.usgs import UsgsFeedError, ingest_usgs_feed, severity_from_magnitude, usgs_source_url
@@ -26,8 +30,11 @@ def feature(data: dict, feature_id: str) -> dict:
 
 
 class UsgsIngestionTests(unittest.TestCase):
+    def make_store(self):
+        return SQLiteOntologyStore(":memory:")
+
     def setUp(self) -> None:
-        self.store = SQLiteOntologyStore(":memory:")
+        self.store = self.make_store()
 
     def tearDown(self) -> None:
         self.store.close()
@@ -115,6 +122,132 @@ class UsgsIngestionTests(unittest.TestCase):
         self.assertEqual(usgs_source_url("http://earthquake.usgs.gov/x"), usgs.USGS_LANDING_URL)
         with self.assertRaises(UsgsFeedError):
             usgs.fetch_usgs_feed("https://example.com/feed.geojson")
+
+    def test_latest_withdrawal_prevents_superseded_active_record_resurfacing(self) -> None:
+        original = copy.deepcopy(feed()["features"][0])
+        def load(item):
+            return ingest_usgs_feed(self.store, {"type": "FeatureCollection", "features": [item]}, retrieved_at=RETRIEVED)
+        load(original)
+        deleted = copy.deepcopy(original)
+        deleted["properties"].update(status="deleted", updated=original["properties"]["updated"] + 10000)
+        deleted["geometry"] = None
+        load(deleted)
+        deleted["properties"]["updated"] += 20000
+        self.assertEqual(load(deleted).withdrawn, 1)
+        history = self.store.object_history("event:usgs-" + original["id"])
+        self.assertEqual(len(history), 3)
+        self.assertEqual(load(deleted).unchanged, 1)
+        superseded = copy.deepcopy(original)
+        superseded["properties"]["updated"] += 20000
+        self.assertEqual(load(superseded).stale, 1)
+        self.assertTrue(self.store.get_object("event:usgs-" + original["id"]).properties["withdrawn"])
+        self.assertEqual(events_feed(self.store, now=NOW)["canonicalEvents"], [])
+        # A genuinely newer source restoration is allowed under the same identity.
+        restored = copy.deepcopy(original)
+        restored["properties"]["updated"] += 40000
+        self.assertEqual(load(restored).revised, 1)
+        self.assertEqual(len(self.store.object_history("event:usgs-" + original["id"])), 4)
+
+    def test_missing_update_cannot_bypass_source_ordering(self) -> None:
+        ingest_usgs_feed(self.store, feed(), retrieved_at=RETRIEVED)
+        before = self.store.object_history("event:usgs-us7000fx01")
+        for status in ("reviewed", "deleted"):
+            for invalid in (None, "not-a-time"):
+                item = copy.deepcopy(feed()["features"][0])
+                item["properties"].update(status=status, updated=invalid, mag=9.0)
+                with self.assertRaises(UsgsFeedError):
+                    ingest_usgs_feed(self.store, {"type": "FeatureCollection", "features": [item]}, retrieved_at=RETRIEVED)
+                self.assertEqual(self.store.object_history("event:usgs-us7000fx01"), before)
+
+    def test_api_preserves_allowlisted_measurements_and_source_identity(self) -> None:
+        ingest_usgs_feed(self.store, feed(), retrieved_at=RETRIEVED)
+        stored = self.store.get_object("event:usgs-us7000fx01")
+        stored.properties["raw_payload"] = {"internal_fixture_note": "must not be projected"}
+        self.store.upsert_object(stored)
+        envelope = events_feed(self.store, now=NOW)
+        for records in (envelope["canonicalEvents"], envelope["events"]):
+            quake = next(e for e in records if e["id"] == "event:usgs-us7000fx01")
+            self.assertEqual(quake["metadata"]["usgsId"], "us7000fx01")
+            self.assertEqual(quake["metadata"]["magnitude"], 5.8)
+            self.assertEqual(quake["metadata"]["depthKm"], 10.0)
+            self.assertFalse(quake["metadata"]["tsunami"])
+            self.assertEqual(quake["metadata"]["feltReports"], 12)
+            self.assertEqual(quake["metadata"]["rawStatus"], "reviewed")
+            self.assertNotIn("raw_payload", quake["metadata"])
+
+    def test_missing_summary_member_is_not_a_withdrawal(self) -> None:
+        ingest_usgs_feed(self.store, feed(), retrieved_at=RETRIEVED)
+        ingest_usgs_feed(self.store, {"type": "FeatureCollection", "features": []}, retrieved_at=RETRIEVED)
+        self.assertEqual(len(events_feed(self.store, now=NOW)["canonicalEvents"]), 4)
+
+
+@unittest.skipUnless(os.environ.get("FORGE_TEST_DATABASE_URL"), "set FORGE_TEST_DATABASE_URL to run PostgreSQL tests")
+class PostgresUsgsIngestionTests(UsgsIngestionTests):
+    def make_store(self):
+        import psycopg
+        from osint_forge.ontology import PostgresOntologyStore
+
+        base = os.environ["FORGE_TEST_DATABASE_URL"]
+        self.schema = "forge_test_" + uuid.uuid4().hex[:12]
+        with psycopg.connect(base, autocommit=True) as admin:
+            admin.execute(f"CREATE SCHEMA {self.schema}")
+        self.addCleanup(self.drop_schema)
+        sep = "&" if "?" in base else "?"
+        return PostgresOntologyStore(f"{base}{sep}options=-csearch_path%3D{self.schema}")
+
+    def drop_schema(self):
+        import psycopg
+        with psycopg.connect(os.environ["FORGE_TEST_DATABASE_URL"], autocommit=True) as admin:
+            admin.execute(f"DROP SCHEMA {self.schema} CASCADE")
+
+
+class UsgsPersistedApiTests(unittest.TestCase):
+    def test_fixture_cli_to_reopened_store_to_wsgi_contract(self) -> None:
+        # Deterministic fixture only: neither live fetching nor hosted integration.
+        from tests.test_api import load_fixture, type_errors
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = str(Path(directory) / "fixture.sqlite")
+            with mock.patch("builtins.print"):
+                usgs.main(["--db", path, "--file", str(FIXTURE)])
+            store = SQLiteOntologyStore(path)
+            try:
+                app = ForgeApi(store)
+                response = {}
+                def start(status, headers):
+                    response.update(status=status, headers=dict(headers))
+                # Freeze only the projection clock so saved fixture events never age out.
+                with mock.patch("osint_forge.api.app.events_feed", side_effect=lambda s, q: events_feed(s, q, now=NOW)):
+                    body = json.loads(b"".join(app({"PATH_INFO": "/api/events", "REQUEST_METHOD": "GET"}, start)))
+                self.assertEqual(response["status"], "200 OK")
+                self.assertEqual(response["headers"]["Access-Control-Allow-Origin"], "*")
+                schema = load_fixture()["schema"]
+                errors = type_errors(body, schema["envelope"], "envelope")
+                for key, kind in (("canonicalEvents", "canonicalEvent"), ("events", "legacyEvent")):
+                    for item in body[key]:
+                        errors += type_errors(item, schema[kind], item["id"])
+                self.assertEqual(errors, [])
+                self.assertEqual(len(body["canonicalEvents"]), 4)
+                canonical = {e["id"]: e for e in body["canonicalEvents"]}
+                legacy = {e["id"]: e for e in body["events"]}
+                for source in feed()["features"]:
+                    object_id = "event:usgs-" + source.get("id", "")
+                    if object_id not in canonical:
+                        continue
+                    event, old, props = canonical[object_id], legacy[object_id], source["properties"]
+                    self.assertEqual((event["longitude"], event["latitude"]), tuple(source["geometry"]["coordinates"][:2]))
+                    self.assertEqual(old["occurredAt"], props["time"])
+                    self.assertEqual(old["updatedAt"], props["updated"])
+                    self.assertEqual(event["metadata"]["magnitude"], props["mag"])
+                    self.assertEqual(event["independentSourceCount"], 1)
+                    self.assertEqual(event["verificationStatus"], "primary-confirmed" if props["status"] == "reviewed" else "single-source")
+                    obj = store.get_object(object_id)
+                    self.assertEqual(obj.provenance[0].contentHash, usgs.stable_hash(source))
+                # The HTTP surface stays read-only.
+                list(app({"PATH_INFO": "/api/events", "REQUEST_METHOD": "POST"}, start))
+                self.assertEqual(response["status"], "405 Method Not Allowed")
+            finally:
+                store.close()
 
 
 class UsgsCliTests(unittest.TestCase):

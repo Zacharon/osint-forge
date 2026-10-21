@@ -153,6 +153,15 @@ def canonical_event(obj: OntologyObject) -> dict[str, Any]:
     for field_name in _LIST_FIELDS:
         values = props.get(_PROPERTY_LIST_KEYS[field_name]) or []
         event[field_name] = list(dict.fromkeys(str(v) for v in values if v)) if isinstance(values, list) else []
+    if event["provider"] == "usgs":
+        # Public, allowlisted measurements only; never copy arbitrary properties or raw payloads.
+        for property_name, metadata_name in (
+            ("usgs_id", "usgsId"), ("magnitude", "magnitude"), ("depth_km", "depthKm"),
+            ("tsunami_flag", "tsunami"), ("felt_reports", "feltReports"),
+            ("significance", "significance"), ("usgs_status", "rawStatus"),
+        ):
+            if property_name in props:
+                event["metadata"][metadata_name] = props[property_name]
     return event
 
 

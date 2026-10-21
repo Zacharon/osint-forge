@@ -92,6 +92,8 @@ osint-forge-usgs --db forge.db --live --confirm-live          # the live feed, g
 
 An unchanged feature writes nothing, and a USGS correction becomes a new revision. Out-of-order corrections are ignored. A deleted feature leaves the public feed but keeps its history. Source links are kept only on `earthquake.usgs.gov`. The code is in `osint_forge/ingestion/usgs.py`, and the tests use the hand-built fixture `tests/fixtures/usgs/summary_feed.json`.
 
+Records need a valid source `updated` timestamp for correction ordering; retrieval time never substitutes for it. A newer withdrawal advances that timestamp even when the event is already withdrawn. Missing records in a rolling summary feed are not treated as withdrawals. Explicit deletion of an unknown id currently writes nothing; withdrawal history is retained for previously ingested events.
+
 ## Agentic Intelligence Layers
 
 - `osint_forge.ingestion.live_adapters` defines `IngestionAdapter`, `NormalizedOSINTEvent`, health tracking, raw-payload storage, deduplication, rate limiting, retries, and source-specific adapters for GDELT, Reddit, Telegram, and X.
