@@ -1,5 +1,13 @@
 # OSINT Forge v3.1+
 
+<!-- public-floorplan:start -->
+## Explore the architecture
+
+[**Open the interactive Floorplan**](https://zacharon.github.io/Zacharon/floorplans/osint-forge.html) · [Standalone HTML file](docs/floorplan.html)
+
+A map of this repository’s public source at `239c9570`. Public-source map; retained file set from the reviewed local map, refreshed against the public revision.
+<!-- public-floorplan:end -->
+
 OSINT Forge is a governed, async, privacy-hardened OSINT mission skeleton. This consolidation turns the scattered v3.1 fragments into a single runnable package with SQLite-backed mission state, tamper-resistant human review, canonicalized PII scanning, locked schemas, SAT preconditions, and dry-run execution.
 
 ## Current Status
