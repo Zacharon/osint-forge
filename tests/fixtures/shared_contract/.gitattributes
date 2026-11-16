@@ -1,0 +1,5 @@
+# These saved artifact hashes bind exact bytes, including line endings.
+run_state.json -text whitespace=cr-at-eol
+memory_checkpoint.json -text whitespace=cr-at-eol
+eval_result.json -text whitespace=cr-at-eol
+review_packet.md -text whitespace=cr-at-eol
