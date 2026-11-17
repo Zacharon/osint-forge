@@ -1,0 +1,56 @@
+{
+  "base_head": "dbd46cd4db471f786be0390c20d6cbcf4c72f8c2",
+  "before_status": "clean",
+  "owned_paths": [
+    {
+      "path": "README.md",
+      "before_sha256": "27532b989e3d2ebfb7776309ea9f47389646fd9ba91767c6356b7651ba1b4273",
+      "after_sha256": "14ce5fe6ceafcfe7933d438e76241e814604ea1a32f6c748bade355756a397a8"
+    },
+    {
+      "path": "CONTEXT.md",
+      "before_sha256": null,
+      "after_sha256": "68bde1ae7a4a55af3eb5f63a6af7e8d7fa174e96fd3a7fd187c681608b810227"
+    },
+    {
+      "path": "docs/SHARED_CONTRACT_ADAPTER.md",
+      "before_sha256": null,
+      "after_sha256": "199aed2fe3f0194ca2ada211a62bd09cbd91bc3a11054e4373fddc7d6b7e4b11"
+    },
+    {
+      "path": "runner/shared_contract.py",
+      "before_sha256": null,
+      "after_sha256": "f86abb3921c3c8f3bce6f2ba0dfe33c925e945a1b8c3340aa3e2059428bb2ffb"
+    },
+    {
+      "path": "tests/test_shared_contract.py",
+      "before_sha256": null,
+      "after_sha256": "3e5d0e98821e9a91469ac6c16588b3c724cabde0eb44c129261a1aaf8bf614d6"
+    },
+    {
+      "path": "tests/fixtures/shared_contract/artifact_ledger.jsonl",
+      "before_sha256": null,
+      "after_sha256": "9a6bea48a685ceed9a49ad2e99e41853204e0111841fb9752b2f02d4a9ad0ad0"
+    },
+    {
+      "path": "tests/fixtures/shared_contract/eval_result.json",
+      "before_sha256": null,
+      "after_sha256": "3b8d05ad6bd07d2a5c61ab034a3a230e1fbb6b89f4dfa11167e9b66a6dfc40bd"
+    },
+    {
+      "path": "tests/fixtures/shared_contract/memory_checkpoint.json",
+      "before_sha256": null,
+      "after_sha256": "3b8d05ad6bd07d2a5c61ab034a3a230e1fbb6b89f4dfa11167e9b66a6dfc40bd"
+    },
+    {
+      "path": "tests/fixtures/shared_contract/review_packet.md",
+      "before_sha256": null,
+      "after_sha256": "87deb04cd2b773d247dbc354aac96e0c9d228d41c38002fc89efc83bf1529a7b"
+    },
+    {
+      "path": "tests/fixtures/shared_contract/run_state.json",
+      "before_sha256": null,
+      "after_sha256": "3b8d05ad6bd07d2a5c61ab034a3a230e1fbb6b89f4dfa11167e9b66a6dfc40bd"
+    }
+  ]
+}
