@@ -1,4 +1,4 @@
-ÃƒÂ¯Ã‚Â»Ã‚Â¿# Shared contract adapter: local candidate
+# Shared contract adapter: local candidate
 
 Capability `ledger.project/v1` is a read-only local inspection command. Humans use
 `python -m runner.shared_contract --project-root <local-root> --contract <trusted-execution_contract.py>`;
