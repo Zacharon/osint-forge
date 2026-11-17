@@ -203,3 +203,6 @@ Keep GDELT as the only live-capable source until DOC-to-GEO enrichment and real 
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE).
+
+Read-only kernel ledger inspection: see [shared contract adapter](docs/SHARED_CONTRACT_ADAPTER.md)
+for the shared human/agent command, synthetic fixture and validation boundaries.
